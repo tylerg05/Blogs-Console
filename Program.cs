@@ -83,10 +83,46 @@ namespace BlogsConsole
                 else if (userInput == "5")
                 {
                     // Edit a blog
+                    var query = db.Blogs.OrderBy(b => b.Name);
+
+                    var counter = 1;
+                    foreach (var item in query)
+                    {
+                        Console.WriteLine(counter + ". " + item.Name);
+                        counter++;
+                    }
+                    Console.WriteLine("Select the blog to edit: ");
+                    var blogSelection = Console.ReadLine();
+                    int x = Int32.Parse(blogSelection);
+                    var selectedBlog = db.Blogs.Find(x);
+                    Console.Write("Enter a new name for the Blog: ");
+                    var name = Console.ReadLine();
+                    var blog = new Blog { Name = name };
+                    db.EditBlog(selectedBlog, blog);
                 }
                 else if (userInput == "6")
                 {
                     // Edit a post
+                    // Display all posts from the database
+                    var query = db.Posts.OrderBy(p => p.Title);
+
+                    Console.WriteLine("All posts in the database:");
+                    var counter = 1;
+                    foreach (var item in query)
+                    {
+                        Console.WriteLine(counter + ". " + item.Title);
+                        counter++;
+                    }
+                    Console.WriteLine("Select the post to edit: ");
+                    var postSelection = Console.ReadLine();
+                    int x = Int32.Parse(postSelection);
+                    var selectedPost = db.Posts.Find(x);
+                    Console.WriteLine("Enter a new post title: ");
+                    Post newPost = new Post();
+                    newPost.Title = Console.ReadLine();
+                    Console.WriteLine("Enter new post content: ");
+                    newPost.Content = Console.ReadLine();
+                    db.EditPost(selectedPost, newPost);
                 }
                 else if (userInput == "7")
                 {
@@ -103,12 +139,26 @@ namespace BlogsConsole
                     var blogSelection = Console.ReadLine();
                     int x = Int32.Parse(blogSelection);
                     var selectedBlog = db.Blogs.Find(x);
-                 
-                    
+                    db.DeleteBlog(selectedBlog);
                 }
                 else if (userInput == "8")
                 {
                     // Delete a post
+                    // Display all posts from the database
+                    var query = db.Posts.OrderBy(p => p.Title);
+
+                    Console.WriteLine("All posts in the database:");
+                    var counter = 1;
+                    foreach (var item in query)
+                    {
+                        Console.WriteLine(counter + ". " + item.Title);
+                        counter++;
+                    }
+                    Console.WriteLine("Select the post to delete: ");
+                    var postSelection = Console.ReadLine();
+                    int x = Int32.Parse(postSelection);
+                    var selectedPost = db.Posts.Find(x);
+                    db.DeletePost(selectedPost);
                 }
                 else
                 {
